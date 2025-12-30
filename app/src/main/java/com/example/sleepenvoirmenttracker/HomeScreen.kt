@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -135,6 +137,7 @@ fun TrackerTab(repository: SleepRepository, lightSensorManager: LightSensorManag
 
     val showReport = !isTracking && readings.isNotEmpty()
 
+    val scrollState = rememberScrollState()
 
     // The column stacks what ever is inside it vertically
     // The modifier here first takes up as much space as it's parent allows, and then adds 16dp of padding
@@ -144,7 +147,7 @@ fun TrackerTab(repository: SleepRepository, lightSensorManager: LightSensorManag
     // the anon function is called by Compose when need to render this part of the UI
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier.fillMaxSize().verticalScroll(scrollState).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // MaterialTheme provides color schemes, typography, and shapes -
