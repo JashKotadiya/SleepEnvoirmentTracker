@@ -1,10 +1,10 @@
 package com.example.sleepenvoirmenttracker
 
-import android.R
-import android.R.attr.onClick
-import android.service.autofill.FillEventHistory
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,11 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
@@ -29,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,10 +40,11 @@ import com.example.sleepenvoirmenttracker.ui.theme.SleepAnalysis
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
-
-
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
+@RequiresApi(Build.VERSION_CODES.O) // API 26
 @Composable
-fun HomeScreen(repository: SleepRepository, lightSensorManager: LightSensorManager, noiseMonitor: NoiseMonitor) {
+fun HomeScreen(repository: SleepRepository, lightSensorManager: LightSensorManager, noiseMonitor: NoiseMonitor, isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
     var selectedTab by remember { mutableStateOf(0) }
     // listOf creates an immutable list
     val tabs = listOf("Tracker", "History")
@@ -49,17 +54,46 @@ fun HomeScreen(repository: SleepRepository, lightSensorManager: LightSensorManag
     Scaffold(
         // topBar wants a lambda so you can pass whatever you want inside it and Kotlin executes it when it needs to draw the topBar
         topBar = {
-            // TabRow is a Composable function which lays out tabs horizontally and highlights the selected tab
-            TabRow(selectedTabIndex = selectedTab, modifier = Modifier.statusBarsPadding()) {
-                // this is all the tabs that go inside the row
-                // forEachIndexed() loops over a list and gives us the index of the item and the item
-                // title -> ... , title is the param and after the -> is the function body
-                // Tab() creates one Tab
-                // onClick works because it takes in a lambda and runs later when the tab is clicked
-                tabs.forEachIndexed { index, title -> Tab(selected = selectedTab == index, onClick = { selectedTab = index }, text = { Text(title) })
+            Column(modifier = Modifier.statusBarsPadding()) {
+                // TabRow is a Composable function which lays out tabs horizontally and highlights the selected tab
+                TabRow(selectedTabIndex = selectedTab, modifier = Modifier.statusBarsPadding()) {
+                    // this is all the tabs that go inside the row
+                    // forEachIndexed() loops over a list and gives us the index of the item and the item
+                    // title -> ... , title is the param and after the -> is the function body
+                    // Tab() creates one Tab
+                    // onClick works because it takes in a lambda and runs later when the tab is clicked
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = { Text(title) })
+                    }
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (selectedTab == 0) "Sleep Tracker" else "Sleep History",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    IconButton(onClick ={onThemeChange(!isDarkTheme)}) {
+                        Icon(
+                            // This uses Material Icons - make sure you have the dependency
+                            imageVector = if (isDarkTheme) Icons.Default.LightMode else Icons.Default.DarkMode,
+                            contentDescription = "Toggle Theme"
+                        )
+                    }
                 }
             }
         }
+
+
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues).padding(16.dp)) {
             if (selectedTab == 0) {
@@ -114,7 +148,7 @@ fun TrackerTab(repository: SleepRepository, lightSensorManager: LightSensorManag
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // MaterialTheme provides color schemes, typography, and shapes -
-        Text(text = "Sleep Environment Tracker", style = MaterialTheme.typography.headlineMedium)
+//        Text(text = "Sleep Environment Tracker", style = MaterialTheme.typography.headlineMedium)
         // latest will grab the latest data from readings or if there is none, set latest to null
         val latest: SleepReading? = readings.lastOrNull()
         // The Card class expects to recieve a set of instructions for colors which tells it how to behave in different states
@@ -193,6 +227,7 @@ fun TrackerTab(repository: SleepRepository, lightSensorManager: LightSensorManag
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O) // API 26
 @Composable
 fun HistoryTab(history: List<SleepSession>) {
     if (history.isEmpty()) {

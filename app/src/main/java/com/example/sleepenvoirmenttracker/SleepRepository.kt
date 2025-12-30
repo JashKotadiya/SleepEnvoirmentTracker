@@ -74,6 +74,14 @@ class SleepRepository(context: Context) {
         readings.add(SleepReading(LocalDateTime.now(), currentLight, currentNoise))
     }
 
+    fun saveThemePreference(isDark: Boolean) {
+        prefs.edit().putBoolean("dark_mode_pref", isDark).apply()
+    }
+
+    fun isDarkMode(): Boolean {
+        return prefs.getBoolean("dark_mode_pref", false)
+    }
+
     private fun saveHistory() {
         val savedList = sessionHistory.map {SavedSession(startTime = it.startTime.toString(), endTime = it.endTime.toString(), avgLight = it.averageLight, avgNoise = it.averageNoise, peakNoise = it.peakNoise)}
         val json = gson.toJson(savedList)
