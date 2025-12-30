@@ -18,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.sleepenvoirmenttracker.ui.theme.SleepEnvoirmentTrackerTheme
 
 class MainActivity : ComponentActivity() {
-    private lateinit var  lightSensorManager: LightSensorManager
-    private lateinit var  noiseMonitor: NoiseMonitor
+    private lateinit var lightSensorManager: LightSensorManager
+    private lateinit var noiseMonitor: NoiseMonitor
     private lateinit var repository: SleepRepository
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -44,16 +44,16 @@ class MainActivity : ComponentActivity() {
         val noiseMonitor = NoiseMonitor(this)
 //        enableEdgeToEdge()
         setContent {
-            MaterialTheme {
+            SleepEnvoirmentTrackerTheme {
                 HomeScreen(repository, lightSensorManager, noiseMonitor)
             }
-            }
         }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         noiseMonitor.stop()
         lightSensorManager.stop()
     }
-    }
+}
 
