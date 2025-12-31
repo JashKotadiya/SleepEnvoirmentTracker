@@ -64,8 +64,25 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        noiseMonitor.stop()
-        lightSensorManager.stop()
+        if (::noiseMonitor.isInitialized) {
+            try {
+                noiseMonitor.stop()
+            } catch (e: Exception) {
+                android.util.Log.e("CrashFix", "Error stopping noise monitor: ${e.message}")
+            }
+        }
+
+        // This :: heres gives us an object which gives us information about the variable itself but not the value
+        // Because lightSensor and noiseMonitor are lateinit, you promise to init the variable later to a non null value
+        // Hence here we cant check if these lateinit vars are none but sometimes the app could crash before we can init these values
+        // So isIntialized is a property of the object which determines if the lateinit var has a value
+        if (::lightSensorManager.isInitialized) {
+            try {
+                lightSensorManager.stop()
+            } catch (e: Exception) {
+                android.util.Log.e("CrashFix", "Error stopping light sensor: ${e.message}")
+            }
+        }
     }
 }
 

@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken
 import java.time.LocalDateTime
 
 data class SavedSession(val startTime: String, val endTime: String, val avgLight: Float, val avgNoise: Float, val peakNoise: Float)
+
 class SleepRepository(context: Context) {
     // this is in the format of name: type = value
     // mutableStateListOf() is a special list provided by Compose, which notifies the Compose UI whenever the list
@@ -106,4 +107,13 @@ class SleepRepository(context: Context) {
             sessionHistory.add(fullSession)
         }
     }
+
+//    fun updateSessionNotes(startTime: LocalDateTime, newNote: String) {
+//        val index = sessionHistory.indexOfFirst { it.startTime == startTime }
+//        if (index != -1) {
+//            sessionHistory[index] = sessionHistory[index].copy(notes =  newNote)
+//            saveHistory()
+//        }
+//    }
+
 }
