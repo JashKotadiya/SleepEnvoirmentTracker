@@ -49,8 +49,20 @@ During the development of this project, I tackled several real-world Android cha
 - [ ] **Room Database:** Transition from SharedPreferences to Room for more robust data querying and scalability.
 - [ ] **Export Functionality:** Add the ability to export sleep data as a CSV for external analysis.
 
-## 📥 Installation
-1.  Clone this repository: `git clone https://github.com/YOUR_USERNAME/SleepEnvironmentTracker.git`
-2.  Open the project in **Android Studio**.
-3.  Connect an Android device (Physical device recommended for sensor testing).
-4.  Build and Run.
+## 📥 Installation & Setup
+
+### 📱 Quick Start (For Recruiters & Testers)
+If you just want to try the app on your Android device without looking at the code, you can download the compiled APK directly:
+
+1. **[Download the Latest Release APK](https://github.com/JashKotadiya/SleepEnvironmentTracker/releases/latest)**
+2. Open the `.apk` file on your Android device.
+3. If prompted, allow "Installation from Unknown Sources" (this is standard for apps downloaded outside the Play Store).
+
+---
+
+### 🛠 Build from Source (For Developers)
+To explore the codebase or make modifications, follow these steps:
+
+1. **Clone this repository:**
+   ```bash
+   git clone [https://github.com/JashKotadiya/SleepEnvironmentTracker.git](https://github.com/YOUR_USERNAME/SleepEnvironmentTracker.git)
