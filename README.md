@@ -54,7 +54,7 @@ During the development of this project, I tackled several real-world Android cha
 ### 📱 Quick Start (For Recruiters & Testers)
 If you just want to try the app on your Android device without looking at the code, you can download the compiled APK directly:
 
-1. **[Download the Latest Release APK](https://github.com/JashKotadiya/SleepEnvironmentTracker/releases/latest)**
+1. **[Download the Latest Release APK]([https://github.com/JashKotadiya/SleepEnvironmentTracker/releases/latest](https://github.com/JashKotadiya/SleepEnvoirmentTracker/releases/tag/v1.0.0))**
 2. Open the `.apk` file on your Android device.
 3. If prompted, allow "Installation from Unknown Sources" (this is standard for apps downloaded outside the Play Store).
 
@@ -65,4 +65,4 @@ To explore the codebase or make modifications, follow these steps:
 
 1. **Clone this repository:**
    ```bash
-   git clone [https://github.com/JashKotadiya/SleepEnvironmentTracker.git](https://github.com/YOUR_USERNAME/SleepEnvironmentTracker.git)
+   git clone [https://github.com/JashKotadiya/SleepEnvoirmentTracker]
